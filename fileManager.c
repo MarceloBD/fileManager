@@ -16,9 +16,9 @@ char a[2] = "7";
 
 fp = openFile(a);
 
-char *s = "abc#12345#marcelo|diani|cama";
+char *s = "#texto|alternativo";
 
-writeF(s, 28 ,fp, 0);
+//writeF(s, 18 ,fp, 28);
 
 char *data = NULL;
 readF(&data, fp);
@@ -26,12 +26,12 @@ readF(&data, fp);
 char **vet = NULL;
 int i;
 
-regCount(0, &data);
+regCount(3, &data);
 getFields(&vet ,data);
 
-printf("\n%s", vet[0]);
-printf("\n%s", vet[1]);
-printf("\n%s", vet[2]);
+printf("\nvet0 %s", vet[0]);
+printf("\nvet1 %s", vet[1]);
+//printf("\nvet2 %s", vet[2]);
 //printf("\n%s", vet[3]);
 closeFile(fp);
 
@@ -39,13 +39,15 @@ closeFile(fp);
 
 void regCount(int* rrn, char** data){
     int i;
-    char *start;
-    for (i = 0; i < rrn ; i++)
+   // char *start = *data;
+    for (i = 0; i < rrn ; i++){
         mystrsep(data, "#");
-   // start = mystrsep(data, "#");
-    //printf("---%s---", data);
+        //*start = *data;
+    }
+    char *start = *data;
+    mystrsep(data, "#");
     //*data = start;
-        //data = start;
+    *data = start;
 }
 
 FILE *openFile(char* name){
@@ -83,11 +85,11 @@ void readF(char** data,FILE *file){
 void getFields(char*** vet, char *data){
     int i = 0, j;                                               // declares variables for function
     char *tok = data, *end = data, *start = data;                              // pointers to data array
-    while (tok != NULL ) {
+    while (tok != NULL && *tok != '\0') {
 
         printf("%d", i);
   //      if(start != NULL){
-            start = mystrsep(&end, "|");
+            mystrsep(&end, "|");
         //stok = start;
         //printf("%s", start);
       //  mystrsep(&start, "#");// makes end points to char after delimiter
